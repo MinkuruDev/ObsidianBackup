@@ -70,4 +70,4 @@ Một ứng dụng mà mã hóa ngày càng phổ biến là thư điện tử (
 
 Yêu cầu thứ hai là **xác thực**. Thông thường, người nhận muốn có sự đảm bảo nào đó rằng tin nhắn đó đến từ nguồn được cho là người gửi.
 
-Phần tiếp theo: [[Xác thực người dùng từ xa bằng mã hoá đối xứng]]
+Phần tiếp theo: [Xác thực người dùng từ xa bằng mã hoá đối xứng](./Xác%20thực%20người%20dùng%20từ%20xa%20bằng%20mã%20hoá%20đối%20xứng.md)
