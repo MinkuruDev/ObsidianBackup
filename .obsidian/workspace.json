@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Hệ thống file.md",
+                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Hệ thống file.md",
+                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Hệ thống file.md",
+                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Hệ thống file.md"
+                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md"
               }
             }
           }
@@ -149,9 +149,10 @@
   },
   "active": "30d1cdc3e1ac284a",
   "lastOpenFiles": [
+    "Cryptography/Kerberos.md",
     "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
     "Cryptography/Nguyên tắc xác thực người dùng từ xa.md",
-    "Cryptography/Kerberos.md",
+    "Hệ thống file.md",
     "Cryptography/Assest/Pasted image 20231019211029.png",
     "Cryptography/Assest/Pasted image 20231019213226.png",
     "Cryptography/Assest/Pasted image 20231019210704.png",
@@ -159,7 +160,6 @@
     "Cryptography/Assest/Pasted image 20231019195959.png",
     "Untitled.md",
     "Private/BTVN AI.md",
-    "Hệ thống file.md",
     "Xác.md",
     "Private/Page Content/Alphabet Arknights Meme.md",
     "Chương 12.md",

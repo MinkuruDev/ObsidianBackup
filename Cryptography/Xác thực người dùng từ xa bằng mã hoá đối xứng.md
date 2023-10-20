@@ -68,5 +68,5 @@ Với một số cải tiến, chiến lược KDC được minh họa trong Hì
 
 Cách tiếp cận này đảm bảo rằng chỉ người nhận tin nhắn dự định mới có thể đọc được nó. Nó cũng cung cấp mức xác thực rằng người gửi là A. Như đã chỉ định, giao thức không bảo vệ chống lại việc phát lại. Một số biện pháp phòng vệ có thể được cung cấp bằng cách thêm dấu thời gian vào tin nhắn. Tuy nhiên, do có thể xảy ra sự chậm trễ trong quá trình xử lý email, những dấu thời gian như vậy có thể bị hạn chế tác dụng.
 
-Phần tiếp theo [Kerberos](Kerberos)
+Phần tiếp theo [Kerberos](./Kerberos.md)
 
