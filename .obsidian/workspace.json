@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "30d1cdc3e1ac284a",
+            "id": "5d771e24ae0397ca",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
+                "file": "AI/Hill_Climbing_N_Queens.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "cbeaddbebadba31e",
@@ -85,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
+                "file": "AI/Hill_Climbing_N_Queens.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
+                "file": "AI/Hill_Climbing_N_Queens.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,17 +126,16 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md"
+                "file": "AI/Hill_Climbing_N_Queens.md"
               }
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -147,23 +147,32 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "30d1cdc3e1ac284a",
+  "active": "969b1332727c3913",
   "lastOpenFiles": [
-    "Cryptography/Kerberos.md",
-    "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
-    "Cryptography/Nguyên tắc xác thực người dùng từ xa.md",
+    "AI/Hill_Climbing_State.png",
+    "AI/Hill_Climbing_N_Queens.md",
+    "AI/Hill_Climbing_Steepest.png",
+    "AI/Hill_Climbing_Simple.png",
+    "AI/Steepest.png",
+    "AI/Simple.png",
+    "AI",
     "Hệ thống file.md",
-    "Cryptography/Assest/Pasted image 20231019211029.png",
-    "Cryptography/Assest/Pasted image 20231019213226.png",
-    "Cryptography/Assest/Pasted image 20231019210704.png",
-    "Cryptography/Assest/Pasted image 20231019201621.png",
-    "Cryptography/Assest/Pasted image 20231019195959.png",
-    "Untitled.md",
+    "Private/Page Content/GOAT Captcha.md",
+    "Private/Page Content/ServerRules.md",
+    "Private/Page Content/Coin Flip.md",
+    "Pasted image 20231023201342.png",
+    "Pasted image 20231027235900.png",
     "Private/BTVN AI.md",
-    "Xác.md",
+    "Cryptography/Xác thực người dùng.md",
+    "Cryptography/Assest/Table_15_1.png",
+    "Cryptography/Nguyên tắc xác thực người dùng từ xa.md",
+    "Cryptography/Assest/Table_15_3.png",
+    "Cryptography/Assest/Picture_15_4.png",
+    "Cryptography/Xác thực người dùng từ xa bằng mã hoá đối xứng.md",
+    "Cryptography/Kerberos.md",
     "Private/Page Content/Alphabet Arknights Meme.md",
+    "Xác.md",
     "Chương 12.md",
-    "Cryptography/Assest/Picture_15_1.png",
     "Cryptography/Assest",
     "Cryptography/Assest",
     "New folder",

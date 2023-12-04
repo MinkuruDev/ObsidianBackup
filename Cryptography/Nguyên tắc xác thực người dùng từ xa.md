@@ -2,8 +2,8 @@
 
 Trong hầu hết các bối cảnh bảo mật máy tính, xác thực người dùng là khối xây dựng cơ bản và là tuyến phòng thủ chính. Xác thực người dùng là cơ sở cho hầu hết các loại kiểm soát truy cập và trách nhiệm giải trình của người dùng. RFC 4949 (Thuật ngữ bảo mật Internet) định nghĩa xác thực người dùng là quá trình xác minh danh tính được xác nhận bởi hoặc cho một thực thể hệ thống. Quá trình này bao gồm hai bước:
 
- - Bước nhận dạng: Trình bày một mã định danh cho hệ thống bảo mật. (Mã định danh phải được chỉ định cẩn thận vì danh tính được xác thực là cơ sở cho các dịch vụ bảo mật khác, chẳng hạn như dịch vụ kiểm soát truy cập.)
- - Bước xác minh: Trình bày hoặc tạo ra thông tin xác thực chứng thực sự ràng buộc giữa thực thể và mã định danh.
+ - **Bước nhận dạng**: Trình bày một mã định danh cho hệ thống bảo mật. (Mã định danh phải được chỉ định cẩn thận vì danh tính được xác thực là cơ sở cho các dịch vụ bảo mật khác, chẳng hạn như dịch vụ kiểm soát truy cập.)
+ - **Bước xác minh**: Trình bày hoặc tạo ra thông tin xác thực chứng thực sự ràng buộc giữa thực thể và mã định danh.
 
 Ví dụ: người dùng Alice Toklas có thể có mã định danh người dùng ABTOKLAS. Thông tin này cần được lưu trữ trên những máy chủ hoặc hệ thống máy tính mà Alice muốn sử dụng và quản trị viên hệ thống cũng như những người dùng khác có thể biết.
 

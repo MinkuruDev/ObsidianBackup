@@ -1,4 +1,142 @@
-Phần trước [[Xác thực người dùng từ xa bằng mã hoá đối xứng]]
+# Nguyên tắc xác thực người dùng từ xa
+
+Trong hầu hết các bối cảnh bảo mật máy tính, xác thực người dùng là khối xây dựng cơ bản và là tuyến phòng thủ chính. Xác thực người dùng là cơ sở cho hầu hết các loại kiểm soát truy cập và trách nhiệm giải trình của người dùng. RFC 4949 (Thuật ngữ bảo mật Internet) định nghĩa xác thực người dùng là quá trình xác minh danh tính được xác nhận bởi hoặc cho một thực thể hệ thống. Quá trình này bao gồm hai bước:
+
+ - **Bước nhận dạng**: Trình bày một mã định danh cho hệ thống bảo mật. (Mã định danh phải được chỉ định cẩn thận vì danh tính được xác thực là cơ sở cho các dịch vụ bảo mật khác, chẳng hạn như dịch vụ kiểm soát truy cập.)
+ - **Bước xác minh**: Trình bày hoặc tạo ra thông tin xác thực chứng thực sự ràng buộc giữa thực thể và mã định danh.
+
+Ví dụ: người dùng Alice Toklas có thể có mã định danh người dùng ABTOKLAS. Thông tin này cần được lưu trữ trên những máy chủ hoặc hệ thống máy tính mà Alice muốn sử dụng và quản trị viên hệ thống cũng như những người dùng khác có thể biết.
+
+Một mục thông tin xác thực điển hình liên quan đến ID người dùng này là mật khẩu, được giữ bí mật (chỉ Alice và hệ thống mới biết). Nếu không ai có thể lấy hoặc đoán được mật khẩu của Alice thì sự kết hợp giữa ID người dùng và mật khẩu của Alice sẽ cho phép quản trị viên thiết lập quyền truy cập của Alice và kiểm tra hoạt động của cô ấy. Vì ID của Alice không phải là bí mật nên người dùng hệ thống có thể gửi email cho cô ấy, nhưng vì mật khẩu của cô ấy là bí mật nên không ai có thể giả làm Alice.
+
+Về bản chất, nhận dạng là phương tiện mà người dùng cung cấp danh tính được xác nhận cho hệ thống; xác thực người dùng là phương tiện để thiết lập tính hợp lệ của yêu cầu. Lưu ý rằng xác thực người dùng khác với xác thực tin nhắn.
+
+Như được định nghĩa trong chương 12, xác thực tin nhắn là một thủ tục cho phép các bên giao tiếp xác minh rằng nội dung của tin nhắn nhận được không bị thay đổi và nguồn đó là xác thực. Chương này chỉ liên quan đến xác thực người dùng.
+
+## Mô hình NIST để xác thực người dùng điện tử
+
+NIST SP 800-63-2 (Hướng dẫn xác thực điện tử, tháng 8 năm 2013) định nghĩa xác thực người dùng điện tử là quá trình thiết lập sự tin cậy đối với danh tính người dùng được hiển thị dưới dạng điện tử cho hệ thống thông tin. Hệ thống có thể sử dụng danh tính được xác thực để xác định xem cá nhân được xác thực có được phép thực hiện các chức năng cụ thể hay không, chẳng hạn như giao dịch cơ sở dữ liệu hoặc quyền truy cập vào các nguồn tài nguyên của hệ thống. Trong nhiều trường hợp, việc xác thực và giao dịch hoặc chức năng được ủy quyền khác diễn ra trên một mạng mở như Internet. Việc xác thực tương tự và ủy quyền tiếp theo có thể diễn ra cục bộ, chẳng hạn như trên mạng cục bộ.
+
+SP 800-63-2 xác định mô hình chung để xác thực người dùng bao gồm một số chủ thể và thủ tục. Chúng ta thảo luận về mô hình này dựa trên Hình 15.1.
+
+Yêu cầu ban đầu để thực hiện xác thực người dùng là người dùng phải đăng ký với hệ thống. Sau đây là trình tự điển hình để đăng ký. Người nộp đơn nộp đơn lên **cơ quan đăng ký (RA - Registration Authority)** để trở thành **người đăng ký** của **nhà cung cấp dịch vụ thông tin xác thực (CSP - Credential Service Provider)**. Trong mô hình này, RA là một thực thể đáng tin cậy thiết lập và xác nhận danh tính của người nộp đơn đăng ký cho một CSP. CSP sau đó tham gia trao đổi với người đăng ký. Tùy thuộc vào chi tiết của hệ thống xác thực tổng thể, CSP cung cấp một số loại thông tin xác thực điện tử cho người đăng ký. Thông tin xác thực là cấu trúc dữ liệu liên kết chính xác danh tính và các thuộc tính bổ sung với token do người đăng ký sở hữu và có thể được xác minh khi được trình bày cho người xác minh trong giao dịch xác thực. Token có thể là khóa mã hóa hoặc mật khẩu được mã hóa để xác định người đăng ký. Token có thể được CSP phát hành, do người đăng ký trực tiếp tạo ra hoặc do bên thứ ba cung cấp. Token và thông tin xác thực có thể được sử dụng trong các sự kiện xác thực tiếp theo.
+
+![picture 15.1](https://media.githubusercontent.com/media/MinkuruDev/ObsidianBackup/master/Cryptography/Assest/Picture_15_1.png)
+
+*Hình 15.1: Mô hình kiến trúc xác thực điện tử NIST SP 800-63-2*
+
+Khi người dùng được đăng ký làm người đăng ký, quá trình xác thực thực tế có thể diễn ra giữa người đăng ký và một hoặc nhiều hệ thống thực hiện xác thực và sau đó là ủy quyền. Bên được xác thực được gọi là **người yêu cầu** và bên xác minh danh tính đó được gọi là **người xác minh**. Khi người yêu cầu chứng minh được việc sở hữu và kiểm soát token cho người xác minh thông qua giao thức xác thực, người xác minh có thể xác minh rằng người yêu cầu là người đăng ký có tên trong thông tin xác thực tương ứng. Người xác minh chuyển xác nhận về danh tính của người đăng ký cho **bên tin cậy (RP - Relying Party)**. Xác nhận đó bao gồm thông tin nhận dạng về người đăng ký, chẳng hạn như tên người đăng ký, số nhận dạng được chỉ định khi đăng ký hoặc các thuộc tính khác của người đăng ký đã được xác minh trong quá trình đăng ký. Bên tin cậy có thể sử dụng thông tin được xác thực do người xác minh cung cấp để đưa ra quyết định cấp phép hoặc kiểm soát truy cập.
+
+Một hệ thống được triển khai để xác thực sẽ khác hoặc phức tạp hơn mô hình đơn giản hóa này, nhưng mô hình này minh họa các vai trò và chức năng chính cần thiết cho một hệ thống xác thực an toàn.
+
+## Phương pháp xác thực
+
+Có bốn phương pháp cơ bản để xác thực danh tính người dùng, có thể được sử dụng riêng lẻ hoặc kết hợp với nhau:
+
+- Điều gì đó mà cá nhân biết: Ví dụ bao gồm mật khẩu, số nhận dạng cá nhân (PIN) hoặc câu trả lời cho một bộ câu hỏi được sắp xếp trước.
+- Thứ mà cá nhân sở hữu: Ví dụ bao gồm khóa mật mã, thẻ khóa điện tử, thẻ thông minh và khóa vật lý. Loại trình xác thực này được gọi là token.
+- Bản chất của cá nhân (sinh trắc học tĩnh): Ví dụ bao gồm sự nhận dạng bằng dấu vân tay, võng mạc và khuôn mặt.
+- Điều gì đó mà cá nhân thực hiện (sinh trắc học động): Các ví dụ bao gồm nhận dạng bằng mẫu giọng nói, đặc điểm chữ viết tay và nhịp gõ.
+
+Tất cả các phương pháp này, nếu được triển khai và sử dụng đúng cách, có thể cung cấp xác thực người dùng an toàn. Tuy nhiên, phương pháp nào cũng có vấn đề. Kẻ thù có thể đoán hoặc đánh cắp mật khẩu. Tương tự, kẻ thù có thể giả mạo hoặc đánh cắp token. Người dùng có thể quên mật khẩu hoặc mất token. Hơn nữa, có một chi phí quản trị đáng kể để quản lý thông tin mật khẩu và token trên hệ thống cũng như bảo mật thông tin đó trên hệ thống. Về sinh trắc học người xác thực, có nhiều vấn đề khác nhau, bao gồm việc xử lý các kết quả dương tính giả và âm tính giả, sự chấp nhận của người dùng, chi phí và sự thuận tiện. Để xác thực người dùng dựa trên mạng, các phương pháp quan trọng nhất liên quan đến khóa mật mã và một số thông tin mà cá nhân đó biết, chẳng hạn như mật khẩu.
+
+## Xác thực chéo
+
+Một lĩnh vực ứng dụng quan trọng là các giao thức xác thực lẫn nhau. Các giao thức như vậy cho phép các bên giao tiếp xác thực chéo về nhận dạng của nhau và trao đổi khóa phiên. Chủ đề này đã được xem xét trong Chương 14. Ở đó, trọng tâm là phân phối khóa. Chúng ta quay lại chủ đề này ở đây để xem xét ý nghĩa rộng hơn của việc xác thực.
+
+Trọng tâm của vấn đề trao đổi khóa xác thực là hai vấn đề: tính bảo mật và tính kịp thời. Để ngăn chặn việc giả mạo và ngăn chặn sự xâm phạm các khóa phiên, thông tin nhận dạng thiết yếu và khóa phiên phải được truyền đạt ở dạng mã hóa. Điều này đòi hỏi sự tồn tại trước đó của khóa bí mật hoặc khóa công khai có thể được sử dụng cho mục đích này. Vấn đề thứ hai, tính kịp thời, rất quan trọng vì nguy cơ phát lại tin nhắn. Những lần phát lại như vậy, trong trường hợp xấu nhất, có thể cho phép đối thủ xâm phạm khóa phiên hoặc mạo danh thành công một bên khác. Ở mức tối thiểu, việc phát lại thành công có thể làm gián đoạn hoạt động bằng cách đưa ra cho các bên những thông báo có vẻ chân thực nhưng thực tế không phải vậy.
+
+Các ví dụ về **tấn công lặp lại**:
+
+1. Cuộc tấn công lặp lại đơn giản nhất là cuộc tấn công trong đó đối thủ chỉ cần sao chép một thông điệp và phát lại nó sau đó.
+2. Đối thủ có thể phát lại tin nhắn có dấu thời gian trong khoảng thời gian hợp lệ. Nếu cả bản gốc và bản phát lại đều đến trong khoảng thời gian đó thì sự cố này có thể được ghi lại.
+3. Như với ví dụ (2), đối phương có thể phát lại tin nhắn được đánh dấu thời gian trong khoảng thời gian hợp lệ, nhưng ngoài ra, đối phương sẽ chặn tin nhắn gốc. Vì vậy, sự lặp lại không thể được phát hiện.
+4. Một cuộc tấn công khác liên quan đến việc phát lại ngược mà không sửa đổi. Đây là phát lại cho người gửi tin nhắn. Cuộc tấn công này có thể xảy ra nếu sử dụng mã hóa đối xứng và người gửi không thể dễ dàng nhận ra sự khác biệt giữa tin nhắn được gửi và tin nhắn nhận được dựa trên nội dung.
+
+Một cách tiếp cận để đối phó với các cuộc tấn công lặp lại là đính kèm số thứ tự vào mỗi tin nhắn được sử dụng trong trao đổi xác thực. Một tin nhắn mới chỉ được chấp nhận nếu số thứ tự của nó đúng thứ tự. Sự khó khăn của cách tiếp cận này là nó yêu cầu mỗi bên phải theo dõi số thứ tự cuối cùng của bên khác mà họ đã thực hiện. Do nhược điểm này nên số thứ tự thường không được sử dụng để xác thực và trao đổi khóa. Thay vào đó, một trong hai cách tiếp cận phổ biến sau đây được sử dụng:
+
+- **Dấu thời gian**: Bên A chỉ chấp nhận tin nhắn là mới nếu tin nhắn chứa **dấu thời gian** mà theo đánh giá của A là đủ gần với hiểu biết của A về thời gian hiện tại. Cách tiếp cận này yêu cầu đồng hồ giữa những người tham gia khác nhau phải được đồng bộ hóa.
+- **Thử thách/phản hồi**: Bên A, chờ đợi một tin nhắn mới từ B, trước tiên gửi cho B một **số dùng một lần** (thử thách) và yêu cầu tin nhắn (phản hồi) tiếp theo nhận được từ B phải chứa giá trị số dùng một lần chính xác.
+
+Có thể lập luận rằng không nên sử dụng phương pháp dấu thời gian cho các ứng dụng hướng kết nối vì những khó khăn cố hữu của kỹ thuật này. Đầu tiên, cần có một số loại giao thức để duy trì sự đồng bộ hóa giữa các đồng hồ bộ xử lý khác nhau. Giao thức này phải vừa có khả năng chịu lỗi để đối phó với các lỗi mạng, vừa phải an toàn để đối phó với các cuộc tấn công thù địch. Thứ hai, cơ hội cho một cuộc tấn công thành công sẽ xuất hiện nếu có sự mất đồng bộ tạm thời do lỗi trong cơ chế đồng hồ của một trong các bên. Cuối cùng, do tính chất thay đổi và không thể đoán trước của độ trễ mạng, nên không thể mong đợi các đồng hồ phân tán sẽ duy trì sự đồng bộ hóa chính xác. Do đó, bất kỳ quy trình dựa trên dấu thời gian nào cũng phải cho phép một khoảng thời gian đủ lớn để đáp ứng độ trễ của mạng nhưng cũng đủ nhỏ để giảm thiểu cơ hội bị tấn công.
+
+Mặt khác, cách tiếp cận thách thức-phản hồi không phù hợp với loại ứng dụng không kết nối, bởi vì nó đòi hỏi chi phí bắt tay trước bất kỳ quá trình truyền không kết nối nào, phủ nhận một cách hiệu quả đặc điểm chính của giao dịch không kết nối. Đối với các ứng dụng như vậy, việc dựa vào một số loại máy chủ thời gian an toàn và nỗ lực nhất quán của mỗi bên để giữ cho đồng hồ của mình được đồng bộ hóa có thể là cách tiếp cận tốt nhất.
+
+## Xác thực một chiều
+
+Một ứng dụng mà mã hóa ngày càng phổ biến là thư điện tử (email). Bản chất của thư điện tử và lợi ích chính của nó là người gửi và người nhận không nhất thiết phải trực tuyến cùng một lúc. Thay vào đó, thư email sẽ được chuyển tiếp đến hộp thư điện tử của người nhận, nơi nó được lưu vào bộ đệm cho đến khi người nhận sẵn sàng đọc nó.
+
+“Phong bì” hoặc tiêu đề của thư email phải rõ ràng để thư có thể được xử lý bằng giao thức email lưu trữ và chuyển tiếp, chẳng hạn như Giao thức truyền thư đơn giản (SMTP) hoặc X.400. Tuy nhiên, điều mong muốn là giao thức xử lý thư không yêu cầu quyền truy cập vào dạng văn bản gốc của thư, vì điều đó đòi hỏi phải tin cậy vào cơ chế xử lý thư. Theo đó, thư email phải được mã hóa sao cho hệ thống xử lý thư không sở hữu khóa để có thể giải mã.
+
+Yêu cầu thứ hai là **xác thực**. Thông thường, người nhận muốn có sự đảm bảo nào đó rằng tin nhắn đó đến từ nguồn được cho là người gửi.
+
+# Xác thực người dùng từ xa bằng mã hoá đối xứng
+
+## Xác thực chéo
+
+Như đã thảo luận trong Chương 14, hệ thống phân cấp hai cấp của các khóa mã hóa đối xứng có thể được sử dụng để cung cấp tính bảo mật cho hoạt động liên lạc trong môi trường phân tán. Nói chung, chiến lược này liên quan đến việc sử dụng một trung tâm phân phối khóa đáng tin cậy (KDC - Key Distribution Center). Mỗi bên trong mạng chia sẻ một khóa bí mật, được gọi là khóa chính, với KDC. KDC chịu trách nhiệm tạo các khóa để sử dụng trong thời gian ngắn qua kết nối giữa hai bên, được gọi là khóa phiên và phân phối các khóa đó bằng khóa chính để bảo vệ việc phân phối. Cách tiếp cận này khá phổ biến. Để làm ví dụ, chúng ta xem xét hệ thống Kerberos trong Phần 15.3. Cuộc thảo luận trong tiểu mục này có liên quan đến sự hiểu biết về cơ chế Kerberos.
+
+Hình 14.3 minh họa một đề xuất ban đầu do Needham và Schroeder đưa ra để phân phối khóa bí mật sử dụng KDC, như đã đề cập trong Chương 14, bao gồm các tính năng xác thực. Giao thức có thể được tóm tắt như sau.
+
+1. A -> KDC: IDa || IDb || N1
+2. KDC -> A: E(Ka, [Ks || IDb || N1 || E(Kb, [Ks || IDa])])
+3. A -> B: E(Kb, [Ks || IDa])
+4. B -> A: E(Ks, N2)
+5. A -> B: E(Ks, f(N2)) f() là hàm tổng quát để thay đổi giá trị của số dùng một lần
+
+Khóa bí mật Ka và Kb lần lượt được chia sẻ giữa A với KDC và B với KDC. Mục đích của giao thức là phân phối một cách an toàn khóa phiên Ks cho A và B. Thực thể A thu được khóa phiên mới một cách an toàn ở bước 2. Tin nhắn ở bước 3 có thể được giải mã và do đó chỉ B mới hiểu được. Bước 4 phản ánh sự hiểu biết của B về Ks, và bước 5 đảm bảo B về sự hiểu biết của A về Ks và đảm bảo với B rằng đây là một thông điệp mới vì việc sử dụng số dùng một lần N2. Nhớ lại kiến thức ở Chương 14 rằng mục đích của bước 4 và 5 là ngăn chặn một kiểu tấn công phát lại nhất định. Đặc biệt, nếu đối thủ có thể nắm bắt được tin nhắn ở bước 3 và phát lại nó, điều này có thể làm gián đoạn các hoạt động ở B.
+
+Mặc dù đã bắt tay ở bước 4 và 5, giao thức vẫn dễ bị tấn công bằng hình thức lặp lại. Giả sử đối thủ X có thể xâm phạm khóa phiên cũ. Phải thừa nhận rằng trường hợp này khó xảy ra hơn nhiều so với trường hợp đối thủ chỉ cần quan sát và ghi lại bước 3. Tuy nhiên, đây là một rủi ro bảo mật tiềm ẩn. X có thể mạo danh A và lừa B sử dụng khóa cũ bằng cách phát lại bước 3. Trừ khi B nhớ tất cả các khóa phiên trước đó được sử dụng với A, B sẽ không thể xác định rằng đây là một khóa phát lại. Nếu X có thể chặn tin nhắn bắt tay ở bước 4 thì nó có thể mạo danh phản hồi của A ở bước 5. Từ thời điểm này trở đi, X có thể gửi tin nhắn giả đến B có vẻ như đến từ A bằng khóa phiên đã được xác thực.
+
+Denning đề xuất khắc phục điểm yếu này bằng cách sửa đổi giao thức Needham/Schroeder bao gồm việc bổ sung dấu thời gian vào bước 2 và 3. Đề xuất của cô ấy giả định rằng các khóa chính, Ka và Kb, là an toàn và nó bao gồm các bước sau.
+
+1. A -> KDC: IDa || IDb 
+2. KDC -> A: E(Ka, [Ks || IDb || T || E(Kb, [Ks || IDa || T])])
+3. A -> B: E(Kb, [Ks || IDa || T])
+4. B -> A: E(Ks, N1)
+5. A -> B: E(Ks, f(N1))
+
+T là dấu thời gian đảm bảo cho A và B rằng khóa phiên vừa được tạo. Do đó, cả A và B đều biết rằng việc phân phối khóa là một trao đổi vừa mới được thực hiện. A và B có thể xác minh tính kịp thời bằng cách kiểm tra `abs(Clock - T) < deltaT1 + deltaT2` trong đó deltaT1 là độ lệch thông thường ước tính giữa đồng hồ của KDC và đồng hồ cục bộ (tại A hoặc B) và deltaT2 là thời gian trễ mạng dự kiến. Mỗi nút có thể đặt đồng hồ của nó theo một số nguồn tham chiếu tiêu chuẩn. Bởi vì dấu thời gian T được mã hóa bằng các khóa chính an toàn nên đối thủ, ngay cả khi biết khóa phiên cũ, cũng không thể thành công vì việc lặp lại bước 3 sẽ bị B phát hiện là không kịp thời. Các bước 4 và 5 này xác nhận việc nhận khóa phiên tại B.
+
+Giao thức Denning dường như cung cấp mức độ bảo mật cao hơn so với giao thức Needham/Schroeder. Tuy nhiên, một mối lo ngại mới được đặt ra: đó là sơ đồ mới này yêu cầu sự phụ thuộc vào các đồng hồ được đồng bộ hóa trên toàn mạng. Rủi ro dựa trên thực tế là các đồng hồ được phân phối có thể không được đồng bộ hóa do sự phá hoại hoặc lỗi trong đồng hồ hoặc cơ chế đồng bộ hóa. Sự cố xảy ra khi đồng hồ của người gửi đi trước đồng hồ dự định của người nhận. Trong trường hợp này, kẻ tấn công có thể chặn tin nhắn từ người gửi và phát lại nó sau khi dấu thời gian trong tin nhắn có hiệu lực tại trang web của người nhận. Việc phát lại này có thể gây ra kết quả không mong muốn. Gong gọi các cuộc tấn công như vậy là các cuộc **tấn công phát lại trễ**.
+
+Một cách để chống lại các cuộc tấn công phát lại trễ là thực thi yêu cầu các bên thường xuyên kiểm tra đồng hồ của họ theo đồng hồ của KDC. Giải pháp thay thế khác, tránh được nhu cầu đồng bộ hóa đồng hồ, là dựa vào các giao thức bắt tay sử dụng những số dùng một lần. Phương án thứ hai này không dễ bị tấn công ngăn chặn phát lại, bởi vì các số dùng một lần mà người nhận sẽ chọn trong tương lai là điều không thể đoán trước được đối với người gửi. Giao thức Needham/Schroeder chỉ dựa vào số dùng một lần nhưng như chúng ta đã thấy, nó có những lỗ hổng khác.
+
+Trong [KEHN92], một nỗ lực được thực hiện nhằm giải quyết những lo ngại về các cuộc tấn công phát lại trễ và đồng thời khắc phục các sự cố trong giao thức Needham/ Schroeder. Sau đó, sự không nhất quán trong giao thức sau này đã được ghi nhận và một chiến lược cải tiến đã được trình bày trong [NEUM93a]. Giao thức này là:
+
+1. A -> B: IDa || Na
+2. B -> KDC: IDb || Nb || E(Kb, [IDa || Na || Tb])
+3. KDC -> A: E(Ka, [IDb || Na || Ks || Tb]) || E(Kb, [IDa || Ks || Tb]) || Nb
+4. A -> B: E(Kb, [IDa || Ks || Tb]) || E(Ks, Nb)
+
+Ta cùng phân tích từng bước một của cuộc trao đổi trên:
+
+1. A bắt đầu trao đổi xác thực bằng cách tạo ra một số dùng một lần, Na, và gửi nó cùng với mã định danh của nó tới B ở dạng bản rõ. Số nonce này sẽ được trả lại cho A trong một tin nhắn được mã hóa cùng với khóa phiên, đảm bảo cho A về tính kịp thời của nó.
+2. B thông báo cho KDC rằng cần có khóa phiên. Tin nhắn của B tới KDC bao gồm mã định danh của B và một số dùng một lần, Nb. Số dùng một lần này sẽ được trả lại cho B trong một tin nhắn được mã hóa bao gồm khóa phiên, đảm bảo cho B về tính kịp thời của nó. Thông điệp của B gửi đến KDC cũng bao gồm một khối được mã hóa bằng khóa bí mật được chia sẻ bởi B và KDC. Khối này được sử dụng để hướng dẫn KDC cấp thông tin xác thực cho A; khối chỉ định người nhận thông tin xác thực dự định, thời gian hết hạn được đề xuất cho thông tin xác thực và số dùng một lần nhận được từ A.
+3. KDC chuyển tới A số dùng một lần của B và một khối được mã hóa bằng khóa bí mật mà B chia sẻ với KDC. Khối này đóng vai trò như một “tấm vé” có thể được A sử dụng cho các lần xác thực tiếp theo, như sẽ thấy. KDC cũng gửi cho A một khối được mã hóa bằng khóa bí mật được chia sẻ bởi A và KDC. Khối này xác minh rằng B đã nhận được tin nhắn ban đầu của A (IDb) và đây là tin nhắn kịp thời chứ không phải tin nhắn phát lại (Na), đồng thời nó cung cấp cho A khóa phiên (Ks) và giới hạn thời gian sử dụng nó (Tb).
+4. A truyền vé cho B, cùng với số dùng một lần của B, sau đó được mã hóa bằng khóa phiên. Vé cung cấp cho B khóa bí mật được sử dụng để giải mã E(Ks, Nb) nhằm khôi phục số dùng một lần. Thực tế là số dùng một lần của B được mã hóa bằng khóa phiên xác thực rằng tin nhắn đến từ A và không phải là tin nhắn được phát lại.
+
+Giao thức này cung cấp một phương tiện an toàn, hiệu quả để A và B thiết lập phiên bằng khóa phiên an toàn. Hơn nữa, giao thức để A sở hữu một khóa có thể được sử dụng cho lần xác thực tiếp theo với B, tránh việc phải liên hệ nhiều lần với máy chủ xác thực. Giả sử A và B thiết lập một phiên sử dụng giao thức nói trên và sau đó kết thúc phiên đó. Sau đó, trong thời hạn do giao thức thiết lập, A mong muốn một phiên mới với B. Giao thức sau đây diễn ra:
+
+1. A -> B: E(Kb, [IDa || Ks || Tb]) || N'a
+2. B -> A: N'b || E(Ks, N'a)
+3. A -> B E(Ks, N'b)
+
+Khi B nhận được tin nhắn ở bước 1, nó xác minh rằng vé chưa hết hạn. Số dùng một lần mới được tạo ra Na và Nb đảm bảo với mỗi bên rằng không có cuộc tấn công lặp lại.
+
+Trong tất cả những điều đã nói ở trên, thời gian được chỉ định trong Tb là thời gian tương ứng với đồng hồ của B. Do đó, dấu thời gian này không yêu cầu đồng hồ đồng bộ vì B chỉ kiểm tra dấu thời gian tự tạo.
+
+## Xác thực một chiều
+
+Sử dụng mã hóa đối xứng, kịch bản phân phối khóa phi tập trung được minh họa trong Hình 14.5 là không thực tế. Lược đồ này yêu cầu người gửi gửi yêu cầu đến người nhận dự định, chờ phản hồi bao gồm khóa phiên và chỉ sau đó gửi tin nhắn.
+
+Với một số cải tiến, chiến lược KDC được minh họa trong Hình 14.3 là một giải pháp phù hợp để mã hoá thư điện tử. Vì chúng tôi muốn tránh yêu cầu người nhận (B) trực tuyến cùng lúc với người gửi (A), nên phải loại bỏ bước 4 và 5. Đối với tin nhắn có nội dung M, trình tự như sau:
+
+1. A -> KDC: IDa || IDb || N1
+2. KDC -> A: E(Ka [Ks || IDb || N1 || E(Kb, [Ks || IDa])])
+3. A -> B: E(Kb, [Ks || IDa]) || E(Ks, M)
+
+Cách tiếp cận này đảm bảo rằng chỉ người nhận tin nhắn dự định mới có thể đọc được nó. Nó cũng cung cấp mức xác thực rằng người gửi là A. Như đã chỉ định, giao thức không bảo vệ chống lại việc phát lại. Một số biện pháp phòng vệ có thể được cung cấp bằng cách thêm dấu thời gian vào tin nhắn. Tuy nhiên, do có thể xảy ra sự chậm trễ trong quá trình xử lý email, những dấu thời gian như vậy có thể bị hạn chế tác dụng.
 
 # Keberos
 
@@ -91,7 +229,8 @@ Một lần cho mỗi phiên dịch vụ:
 
 (5) C -> V: IDc || Ticket(v)
 
-![[Pasted image 20231023201342.png]]
+Ticket(tgs) = E(K(tgs), [IDc || ADc || ID(tgs) || TS1 || Lifetime1])
+Ticket(v) = E(Kv, [IDc || ADc || IDv || TS2 || Lifetime2])
 
 Dịch vụ mới, TGS, phát hành vé cho người dùng đã được xác thực với AS. Do đó, trước tiên người dùng yêu cầu vé cấp vé (Tickettgs) từ AS. Mô-đun máy khách trong máy trạm của người dùng sẽ lưu phiếu này. Mỗi khi người dùng yêu cầu quyền truy cập vào một dịch vụ mới, máy khách sẽ đăng ký với TGS, sử dụng vé để xác thực chính nó. TGS sau đó cấp một vé cho dịch vụ cụ thể. Máy khách lưu từng vé cấp dịch vụ và sử dụng nó để xác thực người dùng của mình với máy chủ mỗi khi một dịch vụ cụ thể được yêu cầu. Chúng ta hãy xem chi tiết của sơ đồ này:
 
@@ -126,9 +265,9 @@ Vấn đề thứ hai là có trường hợp yêu cầu máy chủ phải tự 
 Chúng ta lần lượt xem xét những vấn đề này và tham khảo Bảng 15.1, cho thấy giao thức Kerberos thực tế. Hình 15.2 cung cấp một cái nhìn tổng quan được đơn giản hóa.
 
 ***Bảng 15.1** Tóm tắt về trao đổi tin nhắn Kerberos phiên bản 4*
-![[Table_15_1.png]]
+![Table_15_1.png](https://github.com/MinkuruDev/ObsidianBackup/raw/master/Cryptography/Assest/Table_15_1.png)
 
-![[Figure_15_2.png]]
+![Figure_15_2.png](https://github.com/MinkuruDev/ObsidianBackup/raw/master/Cryptography/Assest/Figure_15_2.png)
 ***Sơ đồ 15.2** Tổng quan về Kerberos*
 
 Đầu tiên, hãy xem xét vấn đề vé cấp vé bị bắt và sự cần thiết phải xác định rằng người xuất trình vé cũng giống như máy khách được cấp vé. Mối đe dọa là đối thủ sẽ đánh cắp vé và sử dụng nó trước khi hết hạn. Để giải quyết vấn đề này, chúng ta hãy yêu cầu AS cung cấp cho cả máy khách và TGS một phần thông tin bí mật một cách an toàn. Sau đó, khách hàng có thể chứng minh danh tính của mình với TGS bằng cách tiết lộ thông tin bí mật một lần nữa theo cách an toàn. Một cách hiệu quả để thực hiện điều này là sử dụng khóa mã hóa làm thông tin bảo mật; đây được gọi là khóa phiên trong Kerberos.
@@ -149,7 +288,7 @@ Cuối cùng, khi kết thúc quá trình này, máy khách và máy chủ sẽ 
 
 Hình 15.3 minh họa các trao đổi Kerberos giữa các bên. Bảng 15.2 tóm tắt sự điều chỉnh cho từng thành phần trong giao thức Kerberos.
 
-![[Picture_15_3.png]]
+![Picture_15_3.png](https://github.com/MinkuruDev/ObsidianBackup/raw/master/Cryptography/Assest/Picture_15_3.png)
 
 **Hình 15.3** Trao đổi Kerberos
 
@@ -241,9 +380,15 @@ Với những quy tắc cơ bản này, chúng ta có thể mô tả cơ chế n
 
 Chi tiết về các sàn giao dịch được minh họa trong Hình 15.4 như sau (so sánh với Bảng 15.1).
 
-![[Pasted image 20231027235900.png]]
+(1) C -> AS: IDc || ID(tgs) || TS1
+(2) AS -> C: E(Kc, [K(c,tgs) || ID(tgs) || TS2 || Lifetime2 || Ticket(tgs)])
+(3) C -> TGS: ID(tgsrem) || Ticket(tgs) || Authenticator(c)
+(4) TGS -> C: E(K(c,tgs), [K(c,tgsrem) || ID(tgsrem) || TS4 || Ticket(tgsrem)])
+(5) C -> TGS(rem): ID(vrem) || Ticket(tgsrem) || Authenticator(c)
+(6) TGS(rem) -> C: E(K(c,tgsrem), [K(c,vrem) || ID(vrem) || TS6 || Ticket(vrem)])
+(7) C -> V(rem): Ticket(vrem) || Authenticator(c)
 
-![[Picture_15_4.png]]
+![Picture_15_4.png](https://github.com/MinkuruDev/ObsidianBackup/raw/master/Cryptography/Assest/Picture_15_4.png)
 
 **Hình 15.4** Yêu cầu dịch vụ ở một vùng khác
 
@@ -282,7 +427,7 @@ Ngoài những hạn chế về môi trường, còn có **những thiếu sót 
 Đầu tiên, hãy xem xét việc **trao đổi dịch vụ xác thực**. Tin nhắn (1) là yêu cầu của khách hàng cho vé cấp vé. Như trước đây, nó bao gồm ID của người dùng và TGS. Các yếu tố mới sau đây được thêm vào:
 
 Bảng 15.3 Tóm tắt các trao đổi tin nhắn Kerberos phiên bản 5
-![[Table_15_3.png]]
+![Table_15_3.png](https://github.com/MinkuruDev/ObsidianBackup/raw/master/Cryptography/Assest/Table_15_3.png)
 
 - **Realm**: Cho biết vùng của người dùng
 - **Options**: Được sử dụng để yêu cầu đặt một số flag nhất định trong vé được trả lại
